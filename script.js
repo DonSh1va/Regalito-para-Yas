@@ -1,91 +1,90 @@
-// Ambient sparkles
-const field = document.getElementById('sparkleField');
-const colors = ['#ffb3d9', '#b98af5', '#ffd76b'];
-for (let i = 0; i < 40; i++) {
-  const s = document.createElement('div');
-  s.className = 'sparkle';
-  s.style.left = Math.random() * 100 + 'vw';
-  s.style.bottom = (Math.random() * 20 - 20) + 'vh';
-  s.style.background = colors[Math.floor(Math.random() * colors.length)];
-  s.style.width = s.style.height = (2 + Math.random() * 3) + 'px';
-  s.style.animationDuration = (6 + Math.random() * 8) + 's';
-  s.style.animationDelay = (Math.random() * 8) + 's';
-  field.appendChild(s);
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feliz Cumpleaños Yas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
-// Gift box burst particles
-const giftWrap = document.getElementById('giftWrap');
-const burstColors = ['#ff4fa3', '#b98af5', '#ffd76b', '#f5eaff'];
-for (let i = 0; i < 18; i++) {
-  const p = document.createElement('div');
-  p.className = 'burst';
-  const angle = (Math.PI * 2 * i) / 18;
-  const dist = 90 + Math.random() * 60;
-  p.style.setProperty('--bx', Math.cos(angle) * dist + 'px');
-  p.style.setProperty('--by', Math.sin(angle) * dist + 'px');
-  p.style.background = burstColors[i % burstColors.length];
-  giftWrap.appendChild(p);
-}
+<div class="sparkle-field" id="sparkleField"></div>
 
-let opened = false;
-const titleBlock = document.getElementById('titleBlock');
-const preHint = document.getElementById('preHint');
-const introBanner = document.getElementById('introBanner');
+<div class="stage">
+  <div class="title-block" id="titleBlock">
+    <h1 class="title">Feliz Cumpleaños Yas</h1>
+    <p class="subtitle">Espero que tengas un día increíble 💜</p>
+  </div>
+  <p class="pre-hint" id="preHint">Tienes un regalo esperándote ✨</p>
 
-giftWrap.addEventListener('click', () => {
-  if (opened) return;
-  opened = true;
-  giftWrap.classList.add('opening');
+  <div class="gift-zone">
+    <div class="gift-wrap" id="giftWrap">
+      <div class="gift-glow"></div>
+      <div class="gift-box">
+        <div class="box-body"></div>
+        <div class="ribbon-v"></div>
+        <div class="ribbon-h"></div>
+        <div class="box-lid"></div>
+        <div class="bow"></div>
+      </div>
+      <div class="gift-hint">Toca para abrir</div>
+    </div>
+  </div>
 
-  preHint.style.transition = 'opacity 0.5s ease';
-  preHint.style.opacity = '0';
-  introBanner.classList.add('hidden');
+  <div class="cards-area" id="cardsArea">
+    <div class="card-slot" id="slot1">
+      <div class="card" id="card1">
+        <div class="card-face card-front card-front--dmc">
+          <img src="images/dmc.png" alt="Devil May Cry">
+          <span class="flip-hint">Toca para voltear</span>
+        </div>
+        <div class="card-face card-back">
+          <div class="heart">💜</div>
+          <div class="msg">R62NN-NW47Z-0P6PX</div>
+        </div>
+      </div>
+    </div>
 
-  setTimeout(() => {
-    titleBlock.classList.add('show');
-  }, 250);
+    <div class="card-slot" id="slot2">
+      <div class="card" id="card2">
+        <div class="card-face card-front card-front--valorant">
+          <img src="images/valorant.png" alt="Valorant">
+          <span class="flip-hint">Toca para voltear</span>
+        </div>
+        <div class="card-face card-back">
+          <div class="heart">💖</div>
+          <div class="msg">RA-XLU9E3SGRZLN7RVT</div>
+        </div>
+      </div>
+    </div>
 
-  setTimeout(() => {
-    giftWrap.classList.add('hidden');
-  }, 550);
+    <div class="card-slot" id="slot3">
+      <div class="card" id="card3">
+        <div class="card-face card-front card-front--ut">
+          <img src="images/untilthen.png" alt="Until Then">
+          <span class="flip-hint">Toca para voltear</span>
+        </div>
+        <div class="card-face card-back">
+          <div class="heart">✨</div>
+          <div class="msg">J8Z3F-W2AP9-I2XPK</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  const slots = ['slot1', 'slot2', 'slot3'];
-  slots.forEach((id, idx) => {
-    setTimeout(() => {
-      document.getElementById(id).classList.add('reveal');
-    }, 500 + idx * 260);
-  });
-});
+  <button class="finish-btn" id="finishBtn">Terminar</button>
 
-// Card flip logic + track when all cards have been flipped
-const finishBtn = document.getElementById('finishBtn');
-const cardIds = ['card1', 'card2', 'card3'];
-const flippedSet = new Set();
+  <div class="final-screen" id="finalScreen">
+    <img src="images/final.jpg" alt="Para ti" class="final-img">
+    <p class="final-caption">Para ti, que te lo mereces, preciosa</p>
+  </div>
 
-cardIds.forEach(id => {
-  const card = document.getElementById(id);
-  card.addEventListener('click', () => {
-    card.classList.toggle('flipped');
-    if (card.classList.contains('flipped')) {
-      flippedSet.add(id);
-      if (flippedSet.size === cardIds.length) {
-        finishBtn.classList.add('show');
-      }
-    }
-  });
-});
+  <footer>hecho con cariño para ti 💜</footer>
+</div>
 
-// Finish button: hide cards, reveal final image + message
-const cardsArea = document.getElementById('cardsArea');
-const finalScreen = document.getElementById('finalScreen');
-
-finishBtn.addEventListener('click', () => {
-  cardsArea.classList.add('fade-out');
-  finishBtn.classList.add('fade-out');
-
-  setTimeout(() => {
-    cardsArea.classList.add('gone');
-    finishBtn.classList.add('gone');
-    finalScreen.classList.add('show');
-  }, 480);
-});
+<script src="script.js"></script>
+</body>
+</html>
